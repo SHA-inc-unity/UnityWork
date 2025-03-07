@@ -3,19 +3,19 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private Transform target; // Игрок
+    private Transform target;
     [SerializeField]
     private Vector3 pos, posFPV;
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private float rotationSpeed = 100f; // Скорость вращения камеры
+    private float rotationSpeed = 100f;
     [SerializeField]
-    private float smoothRotation = 5f; // Плавность вращения
+    private float smoothRotation = 5f;
 
     private bool isFPV;
     private float currentRotationY;
-    private Quaternion lastRotation; // Последний угол камеры перед входом в FPV
+    private Quaternion lastRotation;
 
     private void Start()
     {
@@ -30,13 +30,12 @@ public class CameraController : MonoBehaviour
             isFPV = !isFPV;
             if (isFPV)
             {
-                lastRotation = transform.rotation; // Запоминаем текущий угол камеры перед входом в FPV
+                lastRotation = transform.rotation;
             }
         }
 
         if (isFPV)
         {
-            // Камера в FPV-режиме остаётся с тем же углом, который был перед входом
             transform.position = Vector3.MoveTowards(transform.position, target.position + posFPV, speed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, lastRotation, Time.deltaTime * smoothRotation);
         }

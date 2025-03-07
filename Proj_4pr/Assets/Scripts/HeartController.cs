@@ -8,7 +8,7 @@ public class HeartController : MonoBehaviour
     [SerializeField]
     private float health = 3f;
     [SerializeField]
-    private float maxHp = 10f; // Максимальное HP одного сердца
+    private float maxHp = 10f;
 
     private float maxHeight;
 

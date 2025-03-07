@@ -15,13 +15,11 @@ public class SaveLoaderLevel : MonoBehaviour
     public GameObject dirtPrefab;
     public GameObject movingPlatformPrefab;
 
-    // TMP_InputField для ввода имени уровня
-    public TMP_InputField levelNameInputField; // Привязать в инспекторе Unity
+    public TMP_InputField levelNameInputField;
 
-    // Панель для отображения списка объектов
-    public GameObject loadLevelViewPanel; // Привязать в инспекторе Unity
+    public GameObject loadLevelViewPanel;
 
-    public GameObject loadLevelViewPrefab; // Префаб для LoadLevelView (кнопка/текст)
+    public GameObject loadLevelViewPrefab;
 
     void Start()
     {
@@ -32,18 +30,16 @@ public class SaveLoaderLevel : MonoBehaviour
             Directory.CreateDirectory(gameFolderPath);
         }
 
-        // Загружаем сохраненные уровни при старте
         CreateLevelObjectView();
     }
 
 
     public void SaveLevel()
     {
-        // Получаем имя уровня из TMP_InputField
         string levelName = levelNameInputField.text;
         if (string.IsNullOrEmpty(levelName))
         {
-            levelName = "defaultLevel"; // Если имя не задано, использовать "defaultLevel"
+            levelName = "defaultLevel";
         }
 
         filePath = Path.Combine(Application.persistentDataPath, levelName + ".json");
@@ -76,10 +72,8 @@ public class SaveLoaderLevel : MonoBehaviour
         Debug.Log("Level Saved to " + filePath);
     }
 
-    // Функция для создания объектов LoadLevelView в ScrollView
     void CreateLevelObjectView()
     {
-        // Очищаем панель перед добавлением новых объектов
         foreach (Transform child in loadLevelViewPanel.transform)
         {
             Destroy(child.gameObject);
@@ -87,7 +81,6 @@ public class SaveLoaderLevel : MonoBehaviour
 
         string gameFolderPath = Application.persistentDataPath;
 
-        // Получаем все файлы уровней из директории
         string[] levelFiles = Directory.GetFiles(gameFolderPath, "*.json");
 
         foreach (string levelFile in levelFiles)
@@ -97,18 +90,14 @@ public class SaveLoaderLevel : MonoBehaviour
         }
     }
 
-    // Функция для создания элемента UI (например, кнопки) для каждого уровня
     void CreateLoadLevelView(string levelName, string filePath)
     {
-        // Создаем новый объект LoadLevelView
         GameObject loadLevelViewObject = Instantiate(loadLevelViewPrefab, loadLevelViewPanel.transform);
         LoadLevelView loadLevelView = loadLevelViewObject.GetComponent<LoadLevelView>();
 
-        // Инициализируем данные для отображения (имя уровня)
         loadLevelView.Initialize(levelName, filePath, this);
     }
 
-    // Функция для загрузки уровня по имени
     public void LoadLevel(string levelFilePath)
     {
         if (File.Exists(levelFilePath))
@@ -118,13 +107,11 @@ public class SaveLoaderLevel : MonoBehaviour
             string json = File.ReadAllText(levelFilePath);
             LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-            // Очищаем родительский объект
             foreach (Transform child in parentPlatform.transform)
             {
                 Destroy(child.gameObject);
             }
 
-            // Загружаем платформы
             foreach (var platformData in levelData.platforms)
             {
                 GameObject platformObject = null;

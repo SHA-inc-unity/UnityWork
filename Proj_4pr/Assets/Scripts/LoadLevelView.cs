@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class LoadLevelView : MonoBehaviour
 {
-    public TMP_Text levelNameText; // Привязать в инспекторе Unity
+    public TMP_Text levelNameText;
 
     private string levelFilePath;
     private SaveLoaderLevel saveLoaderLevel;
