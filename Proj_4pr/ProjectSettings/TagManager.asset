@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Dirt
+  - Jumper
   layers:
   - Default
   - TransparentFX

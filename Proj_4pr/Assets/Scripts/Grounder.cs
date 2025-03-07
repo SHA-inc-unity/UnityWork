@@ -1,14 +1,22 @@
 using System;
 using UnityEngine;
 
+public enum GroundedType
+{
+    Ground,
+    Dirt,
+    Jumper,
+    Null,
+}
+
 public class Grounder : MonoBehaviour
 {
     public event Action<GameObject> OnGroundChanged;
 
-    [SerializeField] private string isGrounded = "null"; 
-    [SerializeField] private GameObject ground;     
+    [SerializeField] private GroundedType isGrounded = GroundedType.Null;
+    [SerializeField] private GameObject ground;
 
-    public string IsGrounded => isGrounded;
+    public GroundedType IsGrounded => isGrounded;
     public GameObject Ground
     {
         get => ground;
@@ -24,19 +32,24 @@ public class Grounder : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground") && isGrounded != null)
+        if (other.CompareTag("Ground") || other.CompareTag("Dirt") || other.CompareTag("Jumper"))
         {
-            isGrounded = "null";
+            isGrounded = GroundedType.Null;
             Ground = null;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Ground") && isGrounded != other.tag)
-        {
-            isGrounded = other.tag;
-            Ground = other.gameObject;
-        }
+        if (other.CompareTag("Ground"))
+            isGrounded = GroundedType.Ground;
+        else if (other.CompareTag("Dirt"))
+            isGrounded = GroundedType.Dirt;
+        else if (other.CompareTag("Jumper"))
+            isGrounded = GroundedType.Jumper;
+        else
+            return;
+
+        Ground = other.gameObject;
     }
 }
