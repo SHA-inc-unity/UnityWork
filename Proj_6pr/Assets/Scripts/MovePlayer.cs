@@ -79,10 +79,10 @@ public class MovePlayer : MonoBehaviour
         right.Normalize();
 
         moveDirection = Vector3.zero;
-        if (Input.GetKey(KeyCode.W)) moveDirection += forward;
-        if (Input.GetKey(KeyCode.S)) moveDirection -= forward;
-        if (Input.GetKey(KeyCode.D)) moveDirection += right;
-        if (Input.GetKey(KeyCode.A)) moveDirection -= right;
+        if (Input.GetKey(ButtonsPresets.Instance.KeyCodeW)) moveDirection += forward;
+        if (Input.GetKey(ButtonsPresets.Instance.KeyCodeS)) moveDirection -= forward;
+        if (Input.GetKey(ButtonsPresets.Instance.KeyCodeD)) moveDirection += right;
+        if (Input.GetKey(ButtonsPresets.Instance.KeyCodeA)) moveDirection -= right;
 
         moveDirection.Normalize();
         float calculatedSpeed = speed;
