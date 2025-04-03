@@ -2198,9 +2198,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -2208,6 +2207,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!195 &487360727
 NavMeshAgent:
@@ -3347,9 +3348,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -3357,6 +3357,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!195 &700534846
 NavMeshAgent:
@@ -4007,9 +4009,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -4017,6 +4018,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!195 &762389708
 NavMeshAgent:
@@ -5331,9 +5334,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -5341,6 +5343,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!195 &1079549324
 NavMeshAgent:
@@ -6372,9 +6376,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -6382,6 +6385,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!195 &1194023059
 NavMeshAgent:
@@ -7110,9 +7115,8 @@ MonoBehaviour:
   target: {fileID: 1137478907}
   player: {fileID: 0}
   boomTextPrefab: {fileID: 7351209275315318471, guid: 52b35a6ede1fd894cacc41380af21c69, type: 3}
-  hideRangeMin: 20
   hideRangeMax: 30
-  trackingRange: 20
+  trackingRange: 10
   detectionRange: 3
   speed: 3.5
   attackInterval: 1
@@ -7120,6 +7124,8 @@ MonoBehaviour:
   explosionRadius: 5
   patrolRadius: 5
   hideSearchRadius: 8
+  hideDurationMin: 10
+  hideDurationMax: 20
   explosionDamage: 20
 --- !u!1 &1303243728
 GameObject:

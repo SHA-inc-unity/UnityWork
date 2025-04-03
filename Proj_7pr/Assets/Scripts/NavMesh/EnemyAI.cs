@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private TMP_Text boomTextPrefab;
     [SerializeField]
-    private float hideRangeMin = 20f, hideRangeMax = 30f, trackingRange = 20f, detectionRange = 3f, speed = 3.5f, attackInterval = 1f, explosionTime = 5f, explosionRadius = 5f, patrolRadius = 5f, hideSearchRadius = 8f;
+    private float hideRangeMax = 30f, trackingRange = 10f, detectionRange = 3f, speed = 3.5f, attackInterval = 1f, explosionTime = 5f, explosionRadius = 5f, patrolRadius = 5f, hideSearchRadius = 8f, hideDurationMin = 10f, hideDurationMax = 20f;
     [SerializeField]
     private int explosionDamage = 20;
 
@@ -67,25 +67,22 @@ public class EnemyAI : MonoBehaviour
                 Explode();
             }
         }
-        else if (distanceToTarget > hideRangeMin && distanceToTarget <= hideRangeMax && canSeePlayer)
+        else if (distanceToTarget > trackingRange && distanceToTarget <= hideRangeMax && canSeePlayer && !isHiding)
         {
             lastSeenPlayerPosition = target.transform.position;
+            isHiding = true;
+            isPatrolling = false;
+            isAttacking = false;
+            Vector3 hideSpot = FindHidingSpot();
 
-            if (!isHiding)
+            if (hideSpot != Vector3.zero)
             {
-                isHiding = true;
-                isPatrolling = false;
-                isAttacking = false;
-                Vector3 hideSpot = FindHidingSpot();
-
-                if (hideSpot != Vector3.zero)
-                {
-                    agent.SetDestination(hideSpot);
-                }
-                else
-                {
-                    agent.SetDestination(lastSeenPlayerPosition);
-                }
+                agent.SetDestination(hideSpot);
+                StartCoroutine(HideRoutine());
+            }
+            else
+            {
+                agent.SetDestination(lastSeenPlayerPosition);
             }
         }
         else if (distanceToTarget <= trackingRange && canSeePlayer)
@@ -98,10 +95,17 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(target.transform.position);
             enemyRenderer.material.color = originalColor;
         }
-        else if (!isPatrolling)
+        else if (!isPatrolling && !isHiding)
         {
             StartCoroutine(PatrolRoutine());
         }
+    }
+
+    IEnumerator HideRoutine()
+    {
+        float hideTime = Random.Range(hideDurationMin, hideDurationMax);
+        yield return new WaitForSeconds(hideTime);
+        isHiding = false;
     }
 
     IEnumerator PatrolRoutine()
