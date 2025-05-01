@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float runMultiple = 2f;
     [SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private Transform cameraPivot;
-    [SerializeField] private Transform mainCamera; // <-- ссылка на камеру
+    [SerializeField] private Transform mainCamera;
     [SerializeField] private float minZoomMultiplier = 0f;
     [SerializeField] private float maxZoomMultiplier = 3f;
     [SerializeField] private float zoomSpeed = 25f;
@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
         if (mainCamera != null && cameraPivot != null)
         {
             initialCameraOffset = mainCamera.localPosition;
-            currentZoom = 1f; // по умолчанию 100% от исходного расстояния
+            currentZoom = 1f;
         }
     }
 
@@ -72,7 +72,6 @@ public class PlayerMove : MonoBehaviour
                 }
                 else
                 {
-                    // время вышло, сбросить комбо
                     currentComboIndex = 0;
                     animator.SetFloat("Combo", 0);
                 }
@@ -85,7 +84,7 @@ public class PlayerMove : MonoBehaviour
         currentComboIndex++;
         if (currentComboIndex > maxComboCount)
         {
-            currentComboIndex = 1; // возвращаемся к первому удару
+            currentComboIndex = 1;
         }
         animator.SetFloat("Combo", currentComboIndex);
         Debug.Log(animator.GetFloat("Combo"));
