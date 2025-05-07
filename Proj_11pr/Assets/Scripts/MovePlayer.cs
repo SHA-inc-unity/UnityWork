@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class MovePlayer : MonoBehaviour
     private float zoomSpeed = 2f;
     [SerializeField]
     private float rotationSpeed = 5f;
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip audioClipMove, audioClipDirt, audioClipBlue;
 
     private Rigidbody rb;
     private Vector3 moveDirection = Vector3.zero;
@@ -120,10 +125,29 @@ public class MovePlayer : MonoBehaviour
         moveDirection.Normalize();
         float calculatedSpeed = speed;
         if (grounder.IsGrounded == GroundedType.Dirt)
+        {
+            if (audioSource.clip != audioClipDirt)
+                audioSource.clip = audioClipDirt;
             calculatedSpeed *= 0.5f;
+        }
         else if (grounder.IsGrounded == GroundedType.Jumper)
+        {
+            if (audioSource.clip != audioClipBlue)
+                audioSource.clip = audioClipBlue;
             calculatedSpeed *= 0.75f;
+        }
+        else if (audioSource.clip != audioClipMove)
+                audioSource.clip = audioClipMove;
 
+        if (moveDirection != Vector3.zero)
+            audioSource.UnPause();
+        else
+            audioSource.Pause();
+
+        if (!audioSource.isPlaying && moveDirection != Vector3.zero)
+            audioSource.Play();
+
+        Debug.Log($"{audioSource.clip} {audioSource.isPlaying}");
         rb.linearVelocity = new Vector3(moveDirection.x * calculatedSpeed, rb.linearVelocity.y, moveDirection.z * calculatedSpeed);
     }
 

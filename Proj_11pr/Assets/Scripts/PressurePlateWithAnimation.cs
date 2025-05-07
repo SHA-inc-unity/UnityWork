@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PressurePlateWithAnimation : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PressurePlateWithAnimation : MonoBehaviour
     [SerializeField] private bool deactivateOnExit = true;
     [SerializeField] private float moveDistance = 0.1f;
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private AudioSource audioSource;
 
     private Vector3 initialPosition;
     private Vector3 pressedPosition;
@@ -15,8 +17,8 @@ public class PressurePlateWithAnimation : MonoBehaviour
     private void Start()
     {
         initialPosition = transform.localPosition;
-        pressedPosition = initialPosition - new Vector3(0, moveDistance, 0); 
-        DeactivateTarget();
+        pressedPosition = initialPosition - new Vector3(0, moveDistance, 0);
+        targetObject.Stop();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -51,6 +53,9 @@ public class PressurePlateWithAnimation : MonoBehaviour
         if (targetObject != null)
         {
             targetObject.Play();
+            audioSource.Stop();
+            audioSource.time = 0.5f;
+            audioSource.Play();
             Debug.Log("Объект активирован!");
         }
     }
@@ -60,6 +65,9 @@ public class PressurePlateWithAnimation : MonoBehaviour
         if (targetObject != null)
         {
             targetObject.Stop();
+            audioSource.Stop();
+            audioSource.time = 0.5f;
+            audioSource.Play();
             Debug.Log("Объект деактивирован!");
         }
     }
