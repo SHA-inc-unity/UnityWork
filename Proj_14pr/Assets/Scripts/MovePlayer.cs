@@ -1,44 +1,26 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using Unity.Netcode;
 
-public class MovePlayer : MonoBehaviour
+public class MovePlayer : NetworkBehaviour
 {
-    [SerializeField]
-    private float speed = 5f;
-    [SerializeField]
-    private float jumpPower = 7f;
-    [SerializeField]
-    private float gravityMultiplier = 2f;
-    [SerializeField]
-    private float coyoteTime = 0.2f;
-    [SerializeField]
-    private Transform standartParent;
-    [SerializeField]
-    private Player player;
-    [SerializeField]
-    private Grounder grounder;
-    [SerializeField]
-    private Transform cameraPivot; // Точка фиксации камеры
-    //[SerializeField]
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpPower = 7f;
+    [SerializeField] private float gravityMultiplier = 2f;
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private Transform standartParent;
+    [SerializeField] private Player player;
+    [SerializeField] private Grounder grounder;
+    [SerializeField] private Transform cameraPivot;
     private Transform mainCamera;
-    [SerializeField]
-    private Vector3 thirdPersonOffset;
-    [SerializeField]
-    private float cameraSpeed = 5f;
-    [SerializeField]
-    private float mouseSensitivity = 100f;
-    [SerializeField]
-    private float minZoom = 0f;
-    [SerializeField]
-    private float maxZoom = 3f;
-    [SerializeField]
-    private float zoomSpeed = 2f;
-    [SerializeField]
-    private float rotationSpeed = 5f;
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private AudioClip audioClipMove, audioClipDirt, audioClipBlue;
+    [SerializeField] private Vector3 thirdPersonOffset;
+    [SerializeField] private float cameraSpeed = 5f;
+    [SerializeField] private float mouseSensitivity = 100f;
+    [SerializeField] private float minZoom = 0f;
+    [SerializeField] private float maxZoom = 3f;
+    [SerializeField] private float zoomSpeed = 2f;
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip audioClipMove, audioClipDirt, audioClipBlue;
 
     private Rigidbody rb;
     private Vector3 moveDirection = Vector3.zero;
@@ -51,55 +33,38 @@ public class MovePlayer : MonoBehaviour
 
     private bool canJump => Time.time - lastGroundedTime < coyoteTime && grounder.IsGrounded != GroundedType.Dirt;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        grounder.OnGroundChanged += OnGroundChanged;
-        mainCamera = GameObject.FindFirstObjectByType<Camera>().transform;
-
-        if (mainCamera != null && cameraPivot != null)
+        if (IsOwner)
         {
-            currentZoom = maxZoom; // Начинаем с третьего лица
+            mainCamera = Camera.main.transform;
+            //Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
+
+            if (mainCamera != null && cameraPivot != null)
+            {
+                currentZoom = maxZoom;
+            }
+
+            //grounder.OnGroundChanged += OnGroundChanged;
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
 
     private void OnDestroy()
     {
-        grounder.OnGroundChanged -= OnGroundChanged;
-    }
-
-    private void OnGroundChanged(GameObject newGround)
-    {
-        if (newGround != null)
+        if (IsOwner)
         {
-            if (isFalling)
-            {
-                float fallDistance = fallStartHeight - transform.position.y;
-                if (fallDistance > 0.5f)
-                {
-                    Debug.Log($"Высота падения: {fallDistance} метров");
-                    if (grounder.IsGrounded != GroundedType.Jumper)
-                    {
-                        Debug.Log($"урон у нас: {(int)fallDistance}");
-                        player.TakeDamage((int)fallDistance);
-                    }
-                }
-                isFalling = false;
-            }
-            transform.parent = newGround.transform;
-        }
-        else
-        {
-            transform.parent = standartParent;
+            //grounder.OnGroundChanged -= OnGroundChanged;
         }
     }
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         Move();
         Jump();
         RotateCamera();
@@ -125,6 +90,7 @@ public class MovePlayer : MonoBehaviour
 
         moveDirection.Normalize();
         float calculatedSpeed = speed;
+
         if (grounder.IsGrounded == GroundedType.Dirt)
         {
             if (audioSource.clip != audioClipDirt)
@@ -138,7 +104,7 @@ public class MovePlayer : MonoBehaviour
             calculatedSpeed *= 0.75f;
         }
         else if (audioSource.clip != audioClipMove)
-                audioSource.clip = audioClipMove;
+            audioSource.clip = audioClipMove;
 
         if (moveDirection != Vector3.zero)
             audioSource.UnPause();
@@ -148,7 +114,6 @@ public class MovePlayer : MonoBehaviour
         if (!audioSource.isPlaying && moveDirection != Vector3.zero)
             audioSource.Play();
 
-        Debug.Log($"{audioSource.clip} {audioSource.isPlaying}");
         rb.linearVelocity = new Vector3(moveDirection.x * calculatedSpeed, rb.linearVelocity.y, moveDirection.z * calculatedSpeed);
     }
 
@@ -194,23 +159,48 @@ public class MovePlayer : MonoBehaviour
     {
         if (mainCamera == null || cameraPivot == null) return;
 
-        // Управление зумом через колесо мыши
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        currentZoom -= scroll * zoomSpeed; // Удалён Time.deltaTime для мгновенного изменения
+        currentZoom -= scroll * zoomSpeed;
         currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
 
         if (currentZoom <= minZoom)
         {
-            // Режим от первого лица: камера фиксируется в точке cameraPivot
             mainCamera.position = cameraPivot.position;
             mainCamera.rotation = cameraPivot.rotation;
         }
         else
         {
-            // Режим от третьего лица
             Vector3 targetPosition = cameraPivot.position - cameraPivot.forward * currentZoom * thirdPersonOffset.magnitude;
             mainCamera.position = Vector3.Lerp(mainCamera.position, targetPosition, Time.deltaTime * cameraSpeed);
             mainCamera.LookAt(cameraPivot.position);
         }
     }
+
+    //private void OnGroundChanged(GameObject newGround)
+    //{
+    //    if (!IsOwner) return;
+
+    //    if (newGround != null)
+    //    {
+    //        if (isFalling)
+    //        {
+    //            float fallDistance = fallStartHeight - transform.position.y;
+    //            if (fallDistance > 0.5f)
+    //            {
+    //                Debug.Log($"Высота падения: {fallDistance} метров");
+    //                if (grounder.IsGrounded != GroundedType.Jumper)
+    //                {
+    //                    Debug.Log($"урон у нас: {(int)fallDistance}");
+    //                    player.TakeDamage((int)fallDistance);
+    //                }
+    //            }
+    //            isFalling = false;
+    //        }
+    //        transform.parent = newGround.transform;
+    //    }
+    //    else
+    //    {
+    //        transform.parent = standartParent;
+    //    }
+    //}
 }

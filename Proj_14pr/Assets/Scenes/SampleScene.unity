@@ -15121,6 +15121,7 @@ GameObject:
   - component: {fileID: 1756803233}
   - component: {fileID: 1756803232}
   - component: {fileID: 1756803235}
+  - component: {fileID: 1756803236}
   m_Layer: 0
   m_Name: NetMan
   m_TagString: Untagged
@@ -15229,6 +15230,18 @@ MonoBehaviour:
   serverButton: {fileID: 383005430}
   hostButton: {fileID: 349938316}
   clientButton: {fileID: 666614821}
+--- !u!114 &1756803236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756803231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf31ac0a03bef014781b40a554403166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1769930209
 PrefabInstance:
   m_ObjectHideFlags: 0

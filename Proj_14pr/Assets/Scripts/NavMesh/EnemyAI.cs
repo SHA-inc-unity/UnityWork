@@ -41,6 +41,9 @@ public class EnemyAI : MonoBehaviour
             target = FindAnyObjectByType<MovePlayer>();
             player = FindAnyObjectByType<Player>();
         }
+        if (target == null || player == null)
+            return;
+
 
         float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
         bool canSeePlayer = HasLineOfSight();
