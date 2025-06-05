@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,8 @@ public class EnemyAI : MonoBehaviour
     private float hideRangeMax = 30f, trackingRange = 10f, detectionRange = 3f, speed = 3.5f, attackInterval = 1f, explosionTime = 5f, explosionRadius = 5f, patrolRadius = 5f, hideSearchRadius = 8f, hideDurationMin = 10f, hideDurationMax = 20f;
     [SerializeField]
     private int explosionDamage = 20;
+    [SerializeField]
+    private AudioClip audioClipDeath;
 
     private NavMeshAgent agent;
     private Renderer enemyRenderer;
@@ -195,6 +198,9 @@ public class EnemyAI : MonoBehaviour
         if (boomTextPrefab != null)
         {
             TMP_Text boomText = Instantiate(boomTextPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+            AudioSource al = boomText.AddComponent<AudioSource>();
+            al.clip = audioClipDeath;
+            al.Play();
             Destroy(boomText.gameObject, 1f);
         }
     }

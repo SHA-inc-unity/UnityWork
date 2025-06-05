@@ -7238,6 +7238,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!195 &487360727
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8391,6 +8392,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!195 &700534846
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9052,6 +9054,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!195 &762389708
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10601,6 +10604,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!195 &1079549324
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -11764,6 +11768,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!195 &1194023059
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12503,6 +12508,7 @@ MonoBehaviour:
   hideDurationMin: 10
   hideDurationMax: 20
   explosionDamage: 20
+  audioClipDeath: {fileID: 8300000, guid: 1ffa87c5ee95e6e40904e88a6eb32bf2, type: 3}
 --- !u!1 &1303243728
 GameObject:
   m_ObjectHideFlags: 0
@@ -14853,8 +14859,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1168717141}
   m_HandleRect: {fileID: 1168717140}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15203,7 +15209,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1648025305}
   m_HandleRect: {fileID: 1648025304}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0.99999946
   m_Size: 0.81
   m_NumberOfSteps: 0
   m_OnValueChanged:
